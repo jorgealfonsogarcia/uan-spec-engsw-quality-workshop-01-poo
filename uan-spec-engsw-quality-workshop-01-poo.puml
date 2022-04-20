@@ -1,0 +1,100 @@
+@startuml uan-spec-engsw-quality-workshop-01-poo
+
+' --- CLASES ---
+
+class ComunidadVecinos {
+    -codigo:String
+    -nombre:String
+    -calle:String
+    -codigoPostal:Integer
+    -poblacion:String
+}
+
+class ContratoAdministracion {
+    -activo:Boolean
+    -comunidadVecinos:ComunidadVecinos
+    -administrador:Administrador
+    -honorariosAnuales:Double
+    -fechaInicio:Date
+    -fechaFinal:Date
+}
+
+class Administrador {
+    -nombre:String
+    -dni:String
+    -numeroMatriculaProfesional:String
+}
+
+class SectorEmpresaServicio {
+    -codigo:String
+    -nombre:String
+}
+
+class EmpresaServicio {
+    -nombre:String
+    -sector:SectorEmpresaServicio
+    -cif:String
+    -direccion:String
+    -telefono:String
+    -nombrePersonaContacto:String
+}
+
+class TipoPropiedad {
+    -codigo:String
+    -nombre:String
+}
+
+class Propietario {
+    -dni:String
+    -nombres:String
+    -apellidos:String
+    -direccion:String
+    -telefono:String
+    -numeroCuentaBancaria:String
+}
+
+class Inquilino {
+    -dni:String
+    -nombres:String
+    -apellidos:String
+    -telefono:String
+}
+
+class Propiedad {
+    -tipo:TipoPropiedad
+    -numeroPredial:Integer
+    -planta:String
+    -letra:String
+    -propietario:Propietario
+    -porcentajeParticipacionGastos:Double
+    -habitada:Boolean
+    -inquilino:Inquilino
+}
+
+class PropiedadParticular {
+    -numeroHabitaciones:Integer
+}
+
+class PropiedadLocalComercial {
+    -tipoComercio:String
+    -horaInicial:Time
+    -horaFinal:Time
+}
+
+' --- MULTIPLICIDAD Y ASOCIACIONES ---
+
+ComunidadVecinos "1" -- "1..*" ContratoAdministracion
+
+Administrador "1" -- "1..*" ContratoAdministracion
+
+SectorEmpresaServicio "1" -- "1..*" EmpresaServicio
+
+TipoPropiedad "1" -- "1..*" Propiedad
+
+Propietario "1" -- "1..*" Propiedad
+
+Inquilino "0..1" -- "1..*" Propiedad
+
+Propiedad <|-- PropiedadParticular
+
+@enduml
