@@ -8,6 +8,10 @@ class ComunidadVecinos {
     -calle:String
     -codigoPostal:Integer
     -poblacion:String
+    -presidente:MiembroJuntaAdministracion
+    -vicepresidente:MiembroJuntaAdministracion
+    -vocales:MiembroJuntaAdministracion[]
+    -cuentaBancaria:CuentaBancaria
 }
 
 class ContratoAdministracion {
@@ -81,6 +85,46 @@ class PropiedadLocalComercial {
     -horaFinal:Time
 }
 
+class PropiedadOficina {
+    -actividad:String
+}
+
+class MiembroJuntaAdministracion {
+    -nombre:String
+    -apellidos:String
+    -propiedad:Propiedad
+}
+
+class Banco {
+    -codigo:String
+    -nombre:String
+    -personaContacto:String
+}
+
+class CuentaBancaria {
+    -banco:Banco
+    -numeroCuenta:String
+    -digitoControl1:Integer
+    -digitoControl2:Integer
+    -saldo:Double
+}
+
+class ReciboAdministracion {
+    -numero:String
+    -propiedad:Propiedad
+    -fecha:Date
+    -importe:Double
+    -cobrado:Boolean
+}
+
+class ReciboServicio {
+    -numero:String
+    -propiedad:Propiedad
+    -empresa:EmpresaServicio
+    -fecha:Date
+    -importe:Double
+}
+
 ' --- MULTIPLICIDAD Y ASOCIACIONES ---
 
 ComunidadVecinos "1" -- "1..*" ContratoAdministracion
@@ -96,5 +140,23 @@ Propietario "1" -- "1..*" Propiedad
 Inquilino "0..1" -- "1..*" Propiedad
 
 Propiedad <|-- PropiedadParticular
+
+Propiedad <|-- PropiedadLocalComercial
+
+Propiedad <|-- PropiedadOficina
+
+ComunidadVecinos "1" -- "1" MiembroJuntaAdministracion : presidente
+
+ComunidadVecinos "1" -- "1" MiembroJuntaAdministracion : vicepresidente
+
+ComunidadVecinos "1" *-- "1..*" MiembroJuntaAdministracion : vocales
+
+Banco "1" -- "1..*" CuentaBancaria
+
+ComunidadVecinos "1" -- "1" CuentaBancaria
+
+Propiedad "1" -- "1..*" ReciboAdministracion
+
+Propiedad "1" -- "1..*" ReciboServicio
 
 @enduml
