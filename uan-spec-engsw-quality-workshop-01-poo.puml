@@ -2,6 +2,30 @@
 
 ' --- CLASES ---
 
+abstract class Persona {
+    -dni:String
+    -nombre:String
+    -apellidos:String
+}
+
+class Administrador {
+    -numeroMatriculaProfesional:String
+}
+
+class Propietario {
+    -direccion:String
+    -telefono:String
+    -numeroCuentaBancaria:String
+}
+
+class Inquilino {
+    -telefono:String
+}
+
+class MiembroJuntaAdministracion {
+    -propiedad:Propiedad
+}
+
 class ComunidadVecinos {
     -codigo:String
     -nombre:String
@@ -23,12 +47,6 @@ class ContratoAdministracion {
     -fechaFinal:Date
 }
 
-class Administrador {
-    -nombre:String
-    -dni:String
-    -numeroMatriculaProfesional:String
-}
-
 class SectorEmpresaServicio {
     -codigo:String
     -nombre:String
@@ -43,29 +61,7 @@ class EmpresaServicio {
     -nombrePersonaContacto:String
 }
 
-class TipoPropiedad {
-    -codigo:String
-    -nombre:String
-}
-
-class Propietario {
-    -dni:String
-    -nombres:String
-    -apellidos:String
-    -direccion:String
-    -telefono:String
-    -numeroCuentaBancaria:String
-}
-
-class Inquilino {
-    -dni:String
-    -nombres:String
-    -apellidos:String
-    -telefono:String
-}
-
-class Propiedad {
-    -tipo:TipoPropiedad
+abstract class Propiedad {
     -numeroPredial:Integer
     -planta:String
     -letra:String
@@ -89,12 +85,6 @@ class PropiedadOficina {
     -actividad:String
 }
 
-class MiembroJuntaAdministracion {
-    -nombre:String
-    -apellidos:String
-    -propiedad:Propiedad
-}
-
 class Banco {
     -codigo:String
     -nombre:String
@@ -109,31 +99,36 @@ class CuentaBancaria {
     -saldo:Double
 }
 
-class ReciboAdministracion {
+abstract class Apunte {
     -numero:String
     -propiedad:Propiedad
     -fecha:Date
     -importe:Double
+}
+
+class ReciboAdministracion {
     -cobrado:Boolean
 }
 
 class ReciboServicio {
-    -numero:String
-    -propiedad:Propiedad
     -empresa:EmpresaServicio
-    -fecha:Date
-    -importe:Double
 }
 
 ' --- MULTIPLICIDAD Y ASOCIACIONES ---
+
+Persona <|-- Administrador
+
+Persona <|-- Propietario
+
+Persona <|-- Inquilino
+
+Persona <|-- MiembroJuntaAdministracion
 
 ComunidadVecinos "1" -- "1..*" ContratoAdministracion
 
 Administrador "1" -- "1..*" ContratoAdministracion
 
 SectorEmpresaServicio "1" -- "1..*" EmpresaServicio
-
-TipoPropiedad "1" -- "1..*" Propiedad
 
 Propietario "1" -- "1..*" Propiedad
 
@@ -155,8 +150,12 @@ Banco "1" -- "1..*" CuentaBancaria
 
 ComunidadVecinos "1" -- "1" CuentaBancaria
 
-Propiedad "1" -- "1..*" ReciboAdministracion
+Propiedad "1" -- "1..*" ReciboAdministracion : ingresos
 
-Propiedad "1" -- "1..*" ReciboServicio
+Propiedad "1" -- "1..*" ReciboServicio : gastos
+
+Apunte <|-- ReciboAdministracion
+
+Apunte <|-- ReciboServicio
 
 @enduml
