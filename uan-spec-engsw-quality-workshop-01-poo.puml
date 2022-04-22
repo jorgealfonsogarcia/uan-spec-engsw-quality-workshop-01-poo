@@ -53,8 +53,7 @@ class SectorEmpresaServicio {
 }
 
 class EmpresaServicio {
-    -nombre:String
-    -sector:SectorEmpresaServicio
+    -nombre:Stringjunit
     -cif:String
     -direccion:String
     -telefono:String
@@ -62,6 +61,7 @@ class EmpresaServicio {
 }
 
 abstract class Propiedad {
+    -comunidadVecinos:ComunidadVecinos
     -numeroPredial:Integer
     -planta:String
     -letra:String
@@ -146,6 +146,8 @@ ComunidadVecinos "1" -- "1" MiembroJuntaAdministracion : vicepresidente
 
 ComunidadVecinos "1" *-- "1..*" MiembroJuntaAdministracion : vocales
 
+ComunidadVecinos "1" -- "1..*" Propiedad
+
 Banco "1" -- "1..*" CuentaBancaria
 
 ComunidadVecinos "1" -- "1" CuentaBancaria
@@ -157,5 +159,7 @@ Propiedad "1" -- "1..*" ReciboServicio : gastos
 Apunte <|-- ReciboAdministracion
 
 Apunte <|-- ReciboServicio
+
+EmpresaServicio "1" -- "1..*" ReciboServicio
 
 @enduml
